@@ -1,0 +1,33 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-title slot="start"> Scan QR </ion-title>
+    <ion-button slot="end" (click)="close()">Close Modal</ion-button>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <!-- ngx-scanner-qrcode -->
+  <ngx-scanner-qrcode
+    #action="scanner"
+    [config]="config"
+    (event)="onEvent($event, action)"
+  ></ngx-scanner-qrcode>
+
+    <!-- loading -->
+    <p *ngIf="action.isLoading">⌛ Loading...</p>
+
+    <p>{{ QRValue }}</p>
+    <!-- start/stop -->
+    <button
+      class="btn"
+      [class.btn-info]="!action.isStart"
+      [class.btn-warning]="action.isStart"
+      [disabled]="action.isLoading"
+      (click)="handle(action, action.isStart ? 'stop' : 'start')"
+    >
+      <img
+        [src]="action.isStart ? 'https://id1945.github.io/images/svg/camera-off.svg' : 'https://id1945.github.io/images/svg/camera-on.svg'"
+        width="30px"
+      />
+    </button>
+</ion-content>

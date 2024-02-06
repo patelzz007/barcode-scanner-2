@@ -26,15 +26,15 @@ LOAD_WASM().subscribe();
   styleUrls: ['tab1.page.scss'],
   standalone: true,
   imports: [
-    SafePipe,
-    NgxScannerQrcodeModule,
     IonHeader,
     IonToolbar,
     IonTitle,
     IonContent,
-    NgIf,
-    CommonModule,
     ExploreContainerComponent,
+    NgIf,
+    SafePipe,
+    NgxScannerQrcodeModule,
+    CommonModule,
   ],
 })
 export class Tab1Page implements AfterViewInit {
@@ -78,6 +78,7 @@ export class Tab1Page implements AfterViewInit {
 
   ngAfterViewInit(): void {
     this.action.isReady.subscribe((res: any) => {
+      console.log('action isReady', res);
       // this.handle(this.action, 'start');
     });
   }
@@ -86,10 +87,12 @@ export class Tab1Page implements AfterViewInit {
     // e && action && action.pause();
     console.log(e[0].value);
     this.QRValue = e[0].value;
-    if (this.QRValue) action.stop();
+    if (this.QRValue && action) action.stop();
   }
 
   public handle(action: any, fn: string): void {
+    console.log('111', action);
+    console.log('222', fn);
     const playDeviceFacingBack = (devices: any[]) => {
       // front camera or back camera check here!
       const device = devices.find((f) =>
